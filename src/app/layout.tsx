@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kedai Keluarga",
+  title: "Tani Maju Pandansari",
   description: "POS System By Naufal Rayhan",
 };
 

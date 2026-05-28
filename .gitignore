@@ -36,8 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
 *.tsbuildinfo
 next-env.d.ts
 
 certificates
+POS_MULTIDEVICE_GUIDELINES.md
+AGENTS.md
+

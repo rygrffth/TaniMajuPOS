@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
@@ -244,7 +245,7 @@ export default function CustomerPage() {
     const doc = iframe.contentWindow?.document;
     if (doc) {
       doc.open();
-      doc.write(`<html><head><title>Struk Kedai Keluarga</title><style>
+      doc.write(`<html><head><title>Struk Tani Maju Pandansari</title><style>
         @page { margin: 0; size: auto; } 
         body { 
           font-family: monospace; 
@@ -281,12 +282,12 @@ export default function CustomerPage() {
   if (!mounted) return null;
 
   return (
-    <ScalingContainer bg="bg-slate-50" baseWidth={1280} baseHeight={800} mode="width">
-      <main className="h-full bg-slate-50 flex flex-col font-sans overflow-y-auto pb-32 relative">
+    <ScalingContainer bg="bg-slate-50" baseWidth={1366} baseHeight={768} mode="width" forceFluid={true}>
+      <main className="min-h-screen bg-slate-50 flex flex-col font-sans overflow-y-auto pb-32 relative">
         <div className="bg-slate-900 text-white p-5 lg:p-6 shadow-xl sticky top-0 z-10 flex justify-between items-center no-print w-full">
         <div onClick={handleSecretGateway} className="cursor-pointer select-none">
           <h1 className="text-xl lg:text-2xl font-black tracking-tight flex items-center gap-2">
-            <ShoppingBag size={24} className="text-green-400" /> Kedai Keluarga
+            <ShoppingBag size={24} className="text-green-400" /> Tani Maju Pandansari
           </h1>
           <p className="text-xs text-slate-400 mt-1">Self-Service POS • Scan barcode barang Anda</p>
         </div>
@@ -419,7 +420,7 @@ export default function CustomerPage() {
       </div>
 
       {/* TOAST FEEDBACK */}
-      {showToast && lastScanned && (
+      {showToast && lastScanned && createPortal(
         <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[60] animate-in fade-in slide-in-from-top-4 duration-300 pointer-events-none">
           <div className="bg-slate-900/90 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-3">
             <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20">
@@ -430,14 +431,15 @@ export default function CustomerPage() {
               <p className="text-sm font-black leading-none">{lastScanned.variant_name || lastScanned.products?.name}</p>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* CONFIRM ADD TO CART MODAL - REMOVED for instant scan */}
 
 
       {/* CUSTOM CHECKOUT CONFIRMATION MODAL */}
-      {showCheckoutConfirm && (
+      {showCheckoutConfirm && createPortal(
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-end p-0 animate-in fade-in duration-200 no-print">
           <div className="bg-white rounded-t-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl animate-in slide-in-from-bottom-full duration-300">
             <div className="p-1 flex justify-center"><div className="w-12 h-1.5 bg-gray-200 rounded-full my-3"></div></div>
@@ -446,30 +448,25 @@ export default function CustomerPage() {
                 <Lock size={32} />
               </div>
               <h3 className="text-2xl font-black text-slate-800 mb-2">Selesaikan Belanja?</h3>
-              <p className="text-sm text-gray-500 mb-6 px-4">Pesanan Atas Nama <b>{customerName}</b> (Meja <b>{tableNumber}</b>) akan dikunci dan dikirim ke Kasir.</p>
+              <p className="text-sm text-gray-500 mb-6 px-4">Pesanan Atas Nama <b>{customerName}</b> akan dikunci dan dikirim ke Kasir.</p>
               <div className="flex gap-3">
                 <button onClick={() => setShowCheckoutConfirm(false)} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-2xl transition-all">Batal</button>
                 <button onClick={handleCheckout} className="flex-[2] bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-green-500/30 transition-all">Kirim Pesanan</button>
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* FIXED CHECKOUT BAR */}
       {cart.length > 0 && !receiptData && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] z-20 animate-in slide-in-from-bottom-full duration-300">
           <div className="max-w-md mx-auto p-4 space-y-3">
-            <div className="flex gap-2">
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 flex-[2] flex items-center gap-3">
+              <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 flex-1 flex items-center gap-3">
                 <User size={18} className="text-gray-400" />
                 <input type="text" placeholder="Nama Anda (Wajib)" className="bg-transparent w-full text-sm font-bold text-slate-900 outline-none placeholder:font-normal placeholder-gray-400" value={customerName} onChange={e => setCustomerName(e.target.value)} />
               </div>
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 flex-1 flex items-center gap-2">
-                <span className="text-slate-500 font-black text-[10px] uppercase tracking-wider">Meja</span>
-                <input type="text" placeholder="No." className="bg-transparent w-full text-sm font-black text-blue-700 outline-none placeholder:font-normal placeholder-gray-400 uppercase text-center" value={tableNumber} onChange={e => setTableNumber(e.target.value)} maxLength={3} />
-              </div>
-            </div>
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1 pl-2">
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Total Belanja</p>
@@ -478,7 +475,7 @@ export default function CustomerPage() {
                   {total.toLocaleString('id-ID')}
                 </p>
               </div>
-              <button onClick={requestCheckoutConfirmation} disabled={isCheckingOut || !customerName.trim() || !tableNumber.trim()} className="bg-green-500 hover:bg-green-600 text-white px-6 py-3.5 rounded-2xl font-black shadow-lg shadow-green-500/30 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 flex items-center gap-2 text-sm uppercase tracking-wide">
+              <button onClick={requestCheckoutConfirmation} disabled={isCheckingOut || !customerName.trim()} className="bg-green-500 hover:bg-green-600 text-white px-6 py-3.5 rounded-2xl font-black shadow-lg shadow-green-500/30 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 flex items-center gap-2 text-sm uppercase tracking-wide">
                 {isCheckingOut ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><CheckCircle2 size={20} /> Selesai Belanja</>}
               </button>
             </div>
@@ -487,78 +484,77 @@ export default function CustomerPage() {
       )}
 
       {/* ================= LOCK SCREEN MODAL RECEIPT CUSTOMER ================= */}
-      {receiptData && (
-        <div className="fixed inset-0 bg-slate-900 backdrop-blur-md z-50 overflow-y-auto no-print">
-          <div className="min-h-full flex justify-center py-8 px-4">
-            <div className="bg-white rounded-[2.5rem] w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 my-auto">
-              <div className="bg-green-500 p-8 text-center text-white relative">
-                <Lock size={48} className="mx-auto mb-3 opacity-90" />
-                <h2 className="text-3xl font-black tracking-tight leading-none mb-2">Keranjang Dikunci</h2>
-                <p className="text-green-100 text-sm font-medium bg-green-600/50 p-2 rounded-xl mt-3 flex items-center justify-center gap-2"><Info size={16} /> Silakan tunjukkan layar ini ke kasir</p>
+      {receiptData && createPortal(
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
+          <div className="bg-white rounded-[2.5rem] w-full max-w-[300px] max-h-[85vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col my-auto">
+            <div className="bg-green-500 p-6 text-center text-white relative shrink-0">
+              <Lock size={32} className="mx-auto mb-2 opacity-90" />
+              <h2 className="text-xl font-black tracking-tight leading-none mb-1">Keranjang Dikunci</h2>
+              <p className="text-green-100 text-[10px] font-medium bg-green-600/50 p-2 rounded-xl mt-2 flex items-center justify-center gap-1.5"><Info size={12} /> Tunjukkan ke kasir</p>
+            </div>
+
+            {/* The Actual Receipt Layout for printing/screenshot */}
+            <div id="customer-receipt" className="p-5 bg-slate-50 font-mono text-[10px] text-black flex-1 overflow-y-auto custom-scrollbar">
+              <div className="text-center font-bold text-xs mb-1">TANI MAJU PANDANSARI</div>
+              <div className="text-center mb-4 text-[9px] text-gray-500">Struk Antrean • Tunjukkan ke Kasir</div>
+              <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
+
+              <div className="flex justify-between mb-1">
+                <span className="text-gray-500">Nama Pemesan:</span>
+                <span className="font-bold uppercase text-[11px]">{receiptData.name}</span>
+              </div>
+              <div className="flex justify-between mb-1">
+                <span className="text-gray-500">Meja:</span>
+                <span className="font-bold uppercase text-[11px]">{receiptData.table}</span>
+              </div>
+              <div className="flex justify-between mb-4">
+                <span className="text-gray-500">Waktu:</span>
+                <span className="font-medium text-[9px]">{new Date().toLocaleString('id-ID')}</span>
               </div>
 
-              {/* The Actual Receipt Layout for printing/screenshot */}
-              <div id="customer-receipt" className="p-6 bg-slate-50 font-mono text-xs text-black">
-                <div className="text-center font-bold text-base mb-1">KEDAI KELUARGA</div>
-                <div className="text-center mb-4 text-gray-500">Struk Antrean • Tunjukkan ke Kasir</div>
-                <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
+              <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
 
-                <div className="flex justify-between mb-1">
-                  <span className="text-gray-500">Nama Pemesan:</span>
-                  <span className="font-bold uppercase text-sm">{receiptData.name}</span>
-                </div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-gray-500">Meja:</span>
-                  <span className="font-bold uppercase text-sm">{receiptData.table}</span>
-                </div>
-                <div className="flex justify-between mb-4">
-                  <span className="text-gray-500">Waktu:</span>
-                  <span className="font-medium">{new Date().toLocaleString('id-ID')}</span>
-                </div>
-
-                <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
-
-                <div className="space-y-3 mb-4">
-                  {receiptData.items.map((item: any, i: number) => (
-                    <div key={i}>
-                      <div className="font-bold text-gray-800">{item.variant.variant_name || item.variant.products?.name || "Item"}</div>
-                      <div className="flex justify-between text-gray-600 mt-0.5">
-                        <span>{item.quantity} x {(item.variant.price || 0).toLocaleString('id-ID')}</span>
-                        <span className="font-bold text-gray-900">{(item.quantity * (item.variant.price || 0)).toLocaleString('id-ID')}</span>
-                      </div>
+              <div className="space-y-3 mb-4">
+                {receiptData.items.map((item: any, i: number) => (
+                  <div key={i}>
+                    <div className="font-bold text-gray-800 text-[10px]">{item.variant.variant_name || item.variant.products?.name || "Item"}</div>
+                    <div className="flex justify-between text-gray-600 mt-0.5 text-[9px]">
+                      <span>{item.quantity} x {(item.variant.price || 0).toLocaleString('id-ID')}</span>
+                      <span className="font-bold text-gray-900">{(item.quantity * (item.variant.price || 0)).toLocaleString('id-ID')}</span>
                     </div>
-                  ))}
-                </div>
-
-                <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
-
-                <div className="flex justify-between text-base font-black text-gray-900 mb-4">
-                  <span>TOTAL</span>
-                  <span className="text-lg">Rp {receiptData.total.toLocaleString('id-ID')}</span>
-                </div>
-
-                <div className="text-center text-[10px] text-gray-400 mt-6 pt-4 border-t border-gray-200">
-                  ID: {receiptData.transactionId}
-                </div>
+                  </div>
+                ))}
               </div>
 
-              <div className="p-5 bg-white border-t border-gray-200 no-print space-y-2">
-                <button
-                  onClick={handleDownloadReceipt}
-                  className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-2xl transition-all active:scale-95"
-                >
-                  <Download size={18} /> Download / Cetak Struk
-                </button>
-                <button
-                  onClick={() => { setReceiptData(null); window.scrollTo(0, 0); }}
-                  className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 px-4 rounded-2xl transition-all"
-                >
-                  Buat Pesanan Baru
-                </button>
+              <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
+
+              <div className="flex justify-between text-xs font-black text-gray-900 mb-4">
+                <span>TOTAL</span>
+                <span className="text-sm">Rp {receiptData.total.toLocaleString('id-ID')}</span>
+              </div>
+
+              <div className="text-center text-[9px] text-gray-400 mt-6 pt-4 border-t border-gray-200">
+                ID: {receiptData.transactionId}
               </div>
             </div>
+
+            <div className="p-4 bg-white border-t border-gray-200 no-print space-y-2 shrink-0">
+              <button
+                onClick={handleDownloadReceipt}
+                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-2xl transition-all active:scale-95 text-xs"
+              >
+                <Download size={14} /> Download / Cetak Struk
+              </button>
+              <button
+                onClick={() => { setReceiptData(null); window.scrollTo(0, 0); }}
+                className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-2xl transition-all text-xs"
+              >
+                Buat Pesanan Baru
+              </button>
+            </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
       <div className="py-8 text-center opacity-30 no-print">
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">POS System By Naufal Rayhan</p>

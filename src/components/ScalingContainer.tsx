@@ -1,80 +1,83 @@
 "use client";
 
-import React, { useEffect, useState, useRef, ReactNode } from "react";
+import React, { useEffect, useState, ReactNode } from "react";
+import { useAdaptiveLayout } from "@/hooks/useAdaptiveLayout";
 
 interface ScalingContainerProps {
   children: ReactNode;
-  /** Target width for the design. Default: 1080 (Portrait) or 1920 (Landscape) */
+  /** Target width for the design. Default: 1280 (Desktop) or 430 (Mobile) */
   baseWidth?: number;
-  /** Target height for the design. Default: 1920 (Portrait) or 1080 (Landscape) */
+  /** Target height for the design. Default: 800 (Desktop) or 932 (Mobile) */
   baseHeight?: number;
   /** Mode: 'fit' (scale to fit), 'width' (scale to width), 'height' (scale to height) */
   mode?: "fit" | "width" | "height";
   /** Background color for the outer container */
   bg?: string;
+  /** Force fluid responsive layout (no scaling) */
+  forceFluid?: boolean;
 }
 
 export default function ScalingContainer({
   children,
-  baseWidth = 430, // Default iPhone width for portrait POS
-  baseHeight = 932, // Default iPhone height
+  baseWidth = 1366,
+  baseHeight = 768,
   mode = "fit",
   bg = "bg-slate-50",
+  forceFluid = false,
 }: ScalingContainerProps) {
-  const [scale, setScale] = useState(1);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { scale, deviceType, targetWidth, targetHeight } = useAdaptiveLayout(baseWidth, baseHeight);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (!containerRef.current) return;
+    setMounted(true);
+  }, []);
 
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
+  // Prevent server-side hydration mismatch
+  if (!mounted) {
+    return (
+      <div className={`relative w-full min-h-screen ${bg}`}>
+        <div className="relative w-full min-h-screen bg-white grain-texture">
+          {children}
+        </div>
+      </div>
+    );
+  }
 
-      let newScale = 1;
+  // Mobile & Tablet (viewport < 1200px or explicitly tablet/mobile) or forced: Fluid layout, scale = 1, width = 100%
+  const isFluid = forceFluid || deviceType === "mobile" || deviceType === "tablet";
 
-      const scaleX = windowWidth / baseWidth;
-      const scaleY = windowHeight / baseHeight;
+  if (isFluid) {
+    return (
+      <div className={`relative w-full min-h-screen ${bg}`}>
+        <div className={`relative w-full min-h-screen ${bg} grain-texture flex flex-col`}>
+          {children}
+        </div>
+      </div>
+    );
+  }
 
-      if (mode === "fit") {
-        newScale = Math.min(scaleX, scaleY);
-      } else if (mode === "width") {
-        newScale = scaleX;
-      } else if (mode === "height") {
-        newScale = scaleY;
-      }
-
-      // Avoid extreme scaling
-      setScale(newScale);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Initial call
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [baseWidth, baseHeight, mode]);
-
+  // Desktop/Laptop: Auto scale down, centered absolutely
   return (
     <div
-      ref={containerRef}
-      className={`fixed inset-0 overflow-y-auto flex flex-col items-center py-4 ${bg}`}
+      className={`fixed inset-0 overflow-y-auto flex flex-col items-center justify-start ${bg}`}
     >
       <div
-        ref={contentRef}
         style={{
-          width: `${baseWidth}px`,
-          height: mode === "width" ? "auto" : `${baseHeight}px`,
-          minHeight: mode === "width" ? `${baseHeight}px` : undefined,
-          transform: `scale(${scale})`,
+          position: "absolute",
+          left: "50%",
+          width: `${targetWidth}px`,
+          height: mode === "width" ? "auto" : `${targetHeight}px`,
+          minHeight: mode === "width" ? `${targetHeight}px` : undefined,
+          transform: `translate(-50%, 0) scale(${scale})`,
           transformOrigin: "top center",
           transition: "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
           flexShrink: 0,
         }}
-        className="relative bg-white grain-texture"
+        className="bg-[#f8fafc] grain-texture shadow-sm border border-slate-100/50 rounded-2xl overflow-hidden"
       >
         {children}
       </div>
     </div>
   );
 }
+

@@ -1,51 +1,23 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
-import { Store, ShoppingBag } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import ScalingContainer from "@/components/ScalingContainer";
 
 export default function Home() {
+  const router = useRouter();
+
   useEffect(() => {
-    // Reset admin session whenever user is on landing page
-    localStorage.removeItem("pos_admin_role");
-  }, []);
+    // Automatically redirect to admin/POS page
+    router.replace("/admin");
+  }, [router]);
 
   return (
-    <ScalingContainer bg="bg-slate-50" baseWidth={1280} baseHeight={800} mode="width">
-      <main className="h-full bg-slate-50 flex items-center justify-center p-8 overflow-y-auto">
-        <div className="max-w-6xl w-full text-center">
-          <div className="w-24 h-24 bg-blue-600 rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-blue-500/30">
-            <Store size={48} className="text-white" />
-          </div>
-
-          <h1 className="text-4xl font-black text-slate-800 tracking-tight mb-2">KEDAI KELUARGA</h1>
-          <p className="text-slate-500 font-medium mb-12">Pilih mode aplikasi untuk memulai</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Link href="/customer" className="group flex items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-green-500 transition-all cursor-pointer">
-              <div className="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-colors">
-                <ShoppingBag size={28} />
-              </div>
-              <div className="text-left">
-                <h2 className="text-xl font-bold text-slate-800">Mode Pelanggan</h2>
-                <p className="text-slate-500 text-sm">Masuk untuk memesan mandiri</p>
-              </div>
-            </Link>
-
-            <Link href="/admin" className="group flex items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-500 transition-all cursor-pointer">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                <Store size={28} />
-              </div>
-              <div className="text-left">
-                <h2 className="text-xl font-bold text-slate-800">Mode Kasir & Admin</h2>
-                <p className="text-slate-500 text-sm">Kelola pesanan, meja, & laporan</p>
-              </div>
-            </Link>
-          </div>
-
-          <p className="text-xs text-slate-400 mt-12 font-medium">POS System By Naufal Rayhan</p>
+    <ScalingContainer bg="bg-slate-900" baseWidth={1366} baseHeight={768} mode="width" forceFluid={true}>
+      <main className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-white font-bold tracking-widest animate-pulse">MEMUAT POS TANI MAJU...</p>
         </div>
       </main>
     </ScalingContainer>
