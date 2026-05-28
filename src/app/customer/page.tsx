@@ -312,7 +312,7 @@ export default function CustomerPage() {
                     {item.image_url ? <img src={item.image_url} className="w-full h-full object-cover" alt="product" /> : <div className="w-full h-full flex items-center justify-center text-slate-300"><ShoppingCart size={24} /></div>}
                   </div>
                   <p className="font-bold text-slate-800 text-xs line-clamp-2 leading-tight">{item.variant_name || item.products?.name}</p>
-                  <p className="text-blue-600 font-extrabold text-sm mt-1">Rp {(item.price || 0).toLocaleString('id-ID')}</p>
+                  <p className="text-emerald-600 font-extrabold text-sm mt-1">Rp {(item.price || 0).toLocaleString('id-ID')}</p>
                   <p className="text-[9px] font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Order Sekarang</p>
                 </div>
               ))}
@@ -351,7 +351,7 @@ export default function CustomerPage() {
             <div className="w-full animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-sm font-black text-gray-800 uppercase tracking-widest flex items-center gap-2">
-                  <ScanLine size={16} className="text-blue-600" /> Mode Kamera
+                  <ScanLine size={16} className="text-emerald-600" /> Mode Kamera
                 </h2>
                 <button onClick={handleBatalScan} className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors">
                   <X size={20} />
@@ -384,7 +384,7 @@ export default function CustomerPage() {
             <div className="relative flex-1">
               <input type="text" placeholder="Masukkan kode barang..." className="w-full bg-gray-50 border border-gray-200 rounded-2xl py-3.5 pl-4 pr-10 text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 placeholder:font-normal" value={manualCode} onChange={e => setManualCode(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && manualCode) handleScan(manualCode); }} />
             </div>
-            <button onClick={() => { if (manualCode) handleScan(manualCode); }} className="bg-blue-600 hover:bg-blue-700 text-white p-3.5 rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center" disabled={!manualCode}>
+            <button onClick={() => { if (manualCode) handleScan(manualCode); }} className="bg-emerald-600 hover:bg-emerald-700 text-white p-3.5 rounded-2xl shadow-lg shadow-emerald-500/30 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center" disabled={!manualCode}>
               <Search size={20} />
             </button>
           </div>
@@ -402,7 +402,7 @@ export default function CustomerPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-gray-800 text-sm truncate pr-4">{item.variant.variant_name || item.variant.products?.name}</p>
-                    <p className="text-blue-600 font-extrabold text-sm mb-2">Rp {(item.variant.price || 0).toLocaleString('id-ID')}</p>
+                    <p className="text-emerald-600 font-extrabold text-sm mb-2">Rp {(item.variant.price || 0).toLocaleString('id-ID')}</p>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl p-1">
                         <button onClick={() => updateQuantity(item.variant.id, -1)} className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-white hover:text-gray-800 hover:shadow-sm rounded-lg transition-all"><Minus size={16} /></button>
@@ -444,7 +444,7 @@ export default function CustomerPage() {
           <div className="bg-white rounded-t-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl animate-in slide-in-from-bottom-full duration-300">
             <div className="p-1 flex justify-center"><div className="w-12 h-1.5 bg-gray-200 rounded-full my-3"></div></div>
             <div className="px-6 pb-6 text-center">
-              <div className="w-20 h-20 mx-auto bg-blue-100 rounded-full mb-4 flex items-center justify-center text-blue-600">
+              <div className="w-20 h-20 mx-auto bg-emerald-100 rounded-full mb-4 flex items-center justify-center text-emerald-600">
                 <Lock size={32} />
               </div>
               <h3 className="text-2xl font-black text-slate-800 mb-2">Selesaikan Belanja?</h3>
@@ -541,7 +541,7 @@ export default function CustomerPage() {
             <div className="p-4 bg-white border-t border-gray-200 no-print space-y-2 shrink-0">
               <button
                 onClick={handleDownloadReceipt}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-2xl transition-all active:scale-95 text-xs"
+                className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-2xl transition-all active:scale-95 text-xs"
               >
                 <Download size={14} /> Download / Cetak Struk
               </button>

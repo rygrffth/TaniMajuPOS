@@ -2118,17 +2118,17 @@ export default function AdminDashboard() {
                   <input 
                     type="text" 
                     placeholder="Scan Barcode atau Cari Nama Produk..." 
-                    className="w-full bg-slate-50/50 border-2 border-slate-200 focus:border-blue-500 focus:bg-white rounded-[1.5rem] py-5 pl-16 pr-6 text-base font-black text-slate-800 outline-none transition-all placeholder:text-slate-400 shadow-inner"
+                    className="w-full bg-slate-50/50 border-2 border-slate-200 focus:border-emerald-500 focus:bg-white rounded-[1.5rem] py-5 pl-16 pr-6 text-base font-black text-slate-800 outline-none transition-all placeholder:text-slate-400 shadow-inner"
                     value={posManualCode}
                     onChange={e => setPosManualCode(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { handlePosScan(posManualCode); setPosManualCode(""); } }}
                   />
-                  <button onClick={() => setScanMode(true)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-600 text-white p-3 rounded-2xl shadow-lg shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all"><ScanLine size={22} /></button>
+                  <button onClick={() => setScanMode(true)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-emerald-600 text-white p-3 rounded-2xl shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 active:scale-95 transition-all"><ScanLine size={22} /></button>
                 </div>
 
                 <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-hide mb-3">
                   {['Semua', 'Sembako', 'Makanan', 'Minuman', 'Bumbu', 'Kebersihan', 'Lainnya'].map(cat => (
-                    <button key={cat} onClick={() => setNewProductCategory(cat)} className={`px-5 py-2.5 rounded-xl text-[11px] font-black transition-all border-2 whitespace-nowrap shadow-sm ${newProductCategory === cat ? 'bg-slate-900 text-white border-slate-900 shadow-xl scale-105' : 'bg-white text-slate-500 border-slate-200 hover:border-blue-200 hover:text-slate-800'}`}>{cat}</button>
+                    <button key={cat} onClick={() => setNewProductCategory(cat)} className={`px-5 py-2.5 rounded-xl text-[11px] font-black transition-all border-2 whitespace-nowrap shadow-sm ${newProductCategory === cat ? 'bg-slate-900 text-white border-slate-900 shadow-xl scale-105' : 'bg-white text-slate-500 border-slate-200 hover:border-emerald-200 hover:text-slate-800'}`}>{cat}</button>
                   ))}
                 </div>
 
@@ -2147,13 +2147,13 @@ export default function AdminDashboard() {
                       <button 
                         key={item.id} 
                         onClick={() => addItemToPosCart(item)} 
-                        className="bg-white p-2.5 rounded-[2.5rem] border-2 border-slate-50 hover:border-blue-400 hover:shadow-[0_20px_50px_-15px_rgba(59,130,246,0.2)] hover:-translate-y-1.5 transition-all group relative overflow-hidden flex flex-col text-left active:scale-95"
+                        className="bg-white p-2.5 rounded-[2.5rem] border-2 border-slate-50 hover:border-emerald-400 hover:shadow-[0_20px_50px_-15px_rgba(59,130,246,0.2)] hover:-translate-y-1.5 transition-all group relative overflow-hidden flex flex-col text-left active:scale-95"
                       >
                         <div className="aspect-square bg-gradient-to-br from-slate-50 to-slate-100 rounded-[2rem] mb-3 overflow-hidden relative shadow-inner border border-slate-100">
                           {item.image_url ? (
                             <img src={item.image_url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                           ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 group-hover:text-blue-400 transition-colors">
+                            <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 group-hover:text-emerald-400 transition-colors">
                               <PackageSearch size={32} strokeWidth={1.5} />
                               <p className="text-[7px] font-black uppercase tracking-widest mt-2">No Image</p>
                             </div>
@@ -2162,22 +2162,22 @@ export default function AdminDashboard() {
                         </div>
                         
                         <div className="px-1 flex-1 flex flex-col">
-                          <p className="text-[8px] font-black text-blue-500 uppercase tracking-[0.2em] mb-1 opacity-70">{item.category || 'Umum'}</p>
+                          <p className="text-[8px] font-black text-emerald-500 uppercase tracking-[0.2em] mb-1 opacity-70">{item.category || 'Umum'}</p>
                           <h4 className="font-black text-slate-800 text-[11px] line-clamp-2 leading-tight mb-3 flex-1">{item.variant_name || item.products?.name}</h4>
                           
                           <div className="flex justify-between items-end">
                             <div>
                                <p className="text-[10px] font-bold text-slate-400 leading-none mb-1">Rp</p>
-                               <p className="font-black text-blue-600 text-sm leading-none">{(item.price || 0).toLocaleString('id-ID')}</p>
+                               <p className="font-black text-emerald-600 text-sm leading-none">{(item.price || 0).toLocaleString('id-ID')}</p>
                             </div>
-                            <div className={`w-8 h-8 rounded-2xl flex items-center justify-center transition-all ${item.stock <= lowStockThreshold ? 'bg-red-50 text-red-500 border border-red-100' : 'bg-slate-50 text-slate-400 border border-slate-100 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'}`}>
+                            <div className={`w-8 h-8 rounded-2xl flex items-center justify-center transition-all ${item.stock <= lowStockThreshold ? 'bg-red-50 text-red-500 border border-red-100' : 'bg-slate-50 text-slate-400 border border-slate-100 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600'}`}>
                               <span className="text-[10px] font-black">{item.stock || 0}</span>
                             </div>
                           </div>
                         </div>
                         
                         {/* Interactive Overlay */}
-                        <div className="absolute inset-0 bg-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-emerald-600/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                       </button>
                     ))}
 
@@ -2204,7 +2204,7 @@ export default function AdminDashboard() {
                   )}
 
                   {loadingInv && (
-                    <div className="col-span-full py-20 text-center flex flex-col items-center text-blue-600">
+                    <div className="col-span-full py-20 text-center flex flex-col items-center text-emerald-600">
                        <Loader2 size={48} className="animate-spin mb-4" />
                        <p className="font-black uppercase tracking-widest text-sm">Memuat Data...</p>
                     </div>
@@ -2218,13 +2218,13 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-[2rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-slate-100 flex flex-col h-auto lg:h-[calc(100vh-110px)] overflow-hidden sticky top-0">
                 <div className="p-6 border-b flex justify-between items-center bg-slate-50">
                    <div>
-                     <h3 className="font-black text-slate-800 flex items-center gap-2"><ShoppingCart size={20} className="text-blue-600" /> KERANJANG</h3>
+                     <h3 className="font-black text-slate-800 flex items-center gap-2"><ShoppingCart size={20} className="text-emerald-600" /> KERANJANG</h3>
                      {syncTime && <p className="text-[7px] font-black text-slate-400 uppercase tracking-widest mt-1">Synced: {new Date(syncTime).toLocaleTimeString('id-ID')}</p>}
                    </div>
                     <div className="flex gap-1.5 items-center">
                       <div className="relative flex-1">
                         <select 
-                          className="w-full text-[9px] font-black border-2 border-slate-200 rounded-xl pl-3 pr-8 py-2 outline-none bg-white text-slate-800 shadow-sm focus:border-blue-500 transition-all cursor-pointer appearance-none"
+                          className="w-full text-[9px] font-black border-2 border-slate-200 rounded-xl pl-3 pr-8 py-2 outline-none bg-white text-slate-800 shadow-sm focus:border-emerald-500 transition-all cursor-pointer appearance-none"
                           value={selectedCustomer?.id || ""}
                           onChange={(e) => {
                             const c = customers.find(cust => cust.id === e.target.value);
@@ -2240,7 +2240,7 @@ export default function AdminDashboard() {
                       </div>
                       <button 
                         onClick={() => setShowCustomerForm(true)}
-                        className="p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                        className="p-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-sm"
                         title="Tambah Pelanggan Baru"
                       >
                         <UserPlus size={14} />
@@ -2264,7 +2264,7 @@ export default function AdminDashboard() {
                        </div>
                        <div className="flex-1 min-w-0">
                           <h5 className="text-[10px] font-black text-slate-800 uppercase line-clamp-1">{item.variant.variant_name || item.variant.products?.name}</h5>
-                          <p className="text-[10px] font-bold text-blue-600">
+                          <p className="text-[10px] font-bold text-emerald-600">
                             Rp {(item.unit_price || item.variant.price).toLocaleString('id-ID')} 
                             <span className="text-slate-400 font-medium"> x {item.quantity} {item.unit?.unit_name || item.variant.unit || 'Pcs'}</span>
                           </p>
@@ -2272,7 +2272,7 @@ export default function AdminDashboard() {
                        <div className="flex items-center gap-1.5 bg-white rounded-xl p-1 shadow-sm border border-slate-100">
                           <button onClick={() => updatePosQuantity(item.variant.id, -1, item.unit?.id)} className="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"><Minus size={12} /></button>
                           <span className="text-[11px] font-black text-slate-800 w-5 text-center">{item.quantity}</span>
-                          <button onClick={() => updatePosQuantity(item.variant.id, 1, item.unit?.id)} className="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"><Plus size={12} /></button>
+                          <button onClick={() => updatePosQuantity(item.variant.id, 1, item.unit?.id)} className="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"><Plus size={12} /></button>
                        </div>
                     </div>
                   ))}
@@ -2283,7 +2283,7 @@ export default function AdminDashboard() {
                       {[
                         { name: 'Tunai', color: 'bg-emerald-600', icon: <DollarSign size={12} /> },
                         { name: 'QRIS', color: 'bg-indigo-600', icon: <ScanLine size={12} /> },
-                        { name: 'Transfer', color: 'bg-blue-600', icon: <ExternalLink size={12} /> },
+                        { name: 'Transfer', color: 'bg-emerald-600', icon: <ExternalLink size={12} /> },
                         { name: 'Kasbon', color: 'bg-orange-600', icon: <Clock size={12} /> }
                       ].map(m => (
                         <button 
@@ -2299,13 +2299,13 @@ export default function AdminDashboard() {
 
                    <div className="flex justify-between items-center py-2 px-1 border-t border-slate-800">
                       <div>
-                         <p className="text-[8px] font-black text-blue-400 uppercase tracking-widest leading-none mb-1">TOTAL</p>
+                         <p className="text-[8px] font-black text-emerald-400 uppercase tracking-widest leading-none mb-1">TOTAL</p>
                          <h2 className="text-lg font-black text-white tracking-tighter">Rp {posCart.reduce((s, i) => s + ((i.unit_price || i.variant.price) * i.quantity), 0).toLocaleString('id-ID')}</h2>
                       </div>
                       <button 
                         onClick={() => setIsConfirmingPos(true)}
                         disabled={posCart.length === 0 || (posPaymentMethod === 'Kasbon' && !selectedCustomer)}
-                        className="bg-blue-600 hover:bg-blue-500 disabled:opacity-20 text-white font-black py-3 px-5 rounded-xl shadow-xl shadow-blue-500/20 active:scale-95 transition-all text-[10px] tracking-widest uppercase"
+                        className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-20 text-white font-black py-3 px-5 rounded-xl shadow-xl shadow-emerald-500/20 active:scale-95 transition-all text-[10px] tracking-widest uppercase"
                       >
                         {posPaymentMethod === 'Kasbon' && !selectedCustomer ? 'PILIH PELANGGAN' : 'BAYAR'}
                       </button>
