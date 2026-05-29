@@ -2066,7 +2066,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Footer Actions */}
-          <div className="p-3 border-t border-slate-800 bg-slate-950/20 space-y-2">
+          <div className="p-3 pb-24 lg:pb-3 border-t border-slate-800 bg-slate-950/20 space-y-2">
             <button 
               onClick={loadData} 
               className="w-full flex items-center justify-center gap-1.5 p-2 text-[10px] text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all font-black border border-slate-800 uppercase tracking-widest shrink-0"
