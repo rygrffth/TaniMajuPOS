@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
+import { BarcodeScannerModal } from "@/components/BarcodeScannerModal";
 import { supabase } from "@/lib/supabase";
 import {
   CheckCircle, PackageSearch, ListOrdered, Plus, Minus, Search,
@@ -3036,7 +3037,13 @@ export default function AdminDashboard() {
         document.body
       )}
 
-      {/* MODAL FORM PELANGGAN */}
+      <BarcodeScannerModal 
+        isOpen={scanMode} 
+        onClose={() => setScanMode(false)} 
+        onScan={(code) => handlePosScan(code)} 
+      />
+
+
       {showCustomerForm && createPortal(
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm" onClick={() => setShowCustomerForm(false)}></div>
